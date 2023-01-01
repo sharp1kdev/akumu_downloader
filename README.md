@@ -1,3 +1,9 @@
 Simple script to load files from akumu.ru
 
-Change the `base_url` variable to required link
+Change `baseUrl` variable to required client link
+
+To run: 
+
+```python
+python main.py
+```
