@@ -1,13 +1,16 @@
 import requests
 import os
 import sys
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import as_completed
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 
-baseUrl = 'http://akumu.ru/lineage2/L2EU/P388/L2EU-P388-D20221128-P-220706-221129-1/'
+baseUrl = 'http://akumu.ru/lineage2/L2KR/P419/L2KR-P419-D20221227-G797/system/'
 
 directories = []
 failedFiles = []
+fileUrls = []
 
 def parseUrl(url):
     try:
@@ -24,7 +27,7 @@ def parseUrl(url):
                 print(f'\nParsing {path}')
                 parseUrl(full_url)
             elif not fileExists(f'files/{path}'):
-                    loadFile(full_url)
+                    saveFileUrl(full_url)
                     
     except Exception as e:
         print(f'Failed to parse {url}. {str(e)}')
@@ -34,6 +37,17 @@ def parseUrl(url):
 # TODO: Check file size ?
 def fileExists(path):
     return os.path.isfile(path)
+
+
+def saveFileUrl(url):
+    if not fileUrls.__contains__(url):
+        fileUrls.append(url)
+
+def loadAllFiles():
+    with ThreadPoolExecutor(2) as executor:
+        for fileUrl in fileUrls:
+            executor.submit(loadFile, fileUrl)
+            print(f'start loading {fileUrl}')
 
 def loadFile(url):
     try:
@@ -62,3 +76,4 @@ def loadFile(url):
 
 
 parseUrl(baseUrl)
+loadAllFiles()
