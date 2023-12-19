@@ -1,6 +1,6 @@
 # Can be replaced with
 ```
-wget -r -np -nH -R index.html http://akumu.ru/lineage2/ADRU/P430/ADRU-P430-D20230719-P-230426-230801-2/
+wget -r -np -nH -R index.html* http://akumu.ru/lineage2/ADEU/P447/ADEU-P447-D20231129-P-230809-231206-1/system/
 ```
 
 
